@@ -188,3 +188,11 @@ ABC abc = maybeABC.get();
 물론 현재는 패턴 매칭 기능이 빈약하기 때문에 옵셔널을 if-else문보다는 ifPresent, orElse 와 같은 내장 메서드와 함께 사용하는 것을 권장한다.
 
 다른 언어에서는 위와 같이 Optional을 사용할 때에 else 문을 작성하지 않는다면 강제적으로 컴파일 에러를 발생시킨다. 이를 통해 안전하게 NullPointerException을 방지한다. (Exhaustive pattern matching)
+
+## CompletableFuture
+
+<https://stackoverflow.com/questions/37403210/concept-of-promises-in-java>
+
+15, 16, 17에서 비동기 프로그래밍에 대해 더 자세히 설명하겠지만, 찾아보니 JS의 프로미스와 비슷한 개념인 듯 하다.
+
+이 책의 가장 중요한 챕터들 중 하나인 것 같다.
