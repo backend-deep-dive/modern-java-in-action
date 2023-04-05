@@ -564,7 +564,7 @@ if (obj instanceof String s && s.length() > 5) {
 
 ### 타 언어에서의 패턴 매칭
 
-![계산기 문제](images/20230330163136.png)
+<img width="588" alt="image" src="https://user-images.githubusercontent.com/97447334/229984893-1425ecb7-cece-4407-99d3-f31588ce8623.png">
 
 설명은 아주 간단한데 푸는 난이도는 그렇지 않은 간단한 계산기 문제이다.
 
@@ -616,7 +616,7 @@ def where_is(point):
 
 <https://openjdk.org/projects/jdk/20/>
 
-<img width="588" alt="image" src="https://user-images.githubusercontent.com/97447334/229984893-1425ecb7-cece-4407-99d3-f31588ce8623.png">
+<img width="493" alt="image" src="https://user-images.githubusercontent.com/97447334/229984906-01fd000a-e9d1-4dec-9694-c4d498c2f494.png">
 
 위는 2023년 3월 21일에 릴리즈된 자바 20의 기능들이다.
 
@@ -628,16 +628,17 @@ def where_is(point):
 
 자바 20을 설치한 뒤 각각의 폴더에 들어가 다음과 같이 실행할 수 있다.
 
-<img width="493" alt="image" src="https://user-images.githubusercontent.com/97447334/229984906-01fd000a-e9d1-4dec-9694-c4d498c2f494.png">
+<img width="725" alt="image" src="https://user-images.githubusercontent.com/97447334/229984950-3a638daf-3795-49d8-9012-d4241cc9765b.png">
+
 
 #### Pattern Matching for switch
 
-<img width="725" alt="image" src="https://user-images.githubusercontent.com/97447334/229984950-3a638daf-3795-49d8-9012-d4241cc9765b.png">
-
-#### Record Patterns
 
 <img width="596" alt="image" src="https://user-images.githubusercontent.com/97447334/229984972-ce67c912-ec8c-421d-962c-4c8055e8f809.png">
 
+#### Record Patterns
+
+<img width="486" alt="image" src="https://user-images.githubusercontent.com/97447334/229985784-b4ebdc63-564d-4511-9c3d-5fc6e289e9e8.png">
 
 #### java pattern matching 아쉬운 점
 
