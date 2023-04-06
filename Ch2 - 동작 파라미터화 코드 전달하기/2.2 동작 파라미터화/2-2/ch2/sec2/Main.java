@@ -10,9 +10,7 @@ import ch2.sec2.prettyprint.AppleSimpleFormatter;
 class Main {
 
     public static List<Apple> filterGreenApples(List<Apple> inventory) {
-
         List<Apple> result = new ArrayList<>();
-
         for (Apple apple : inventory) {
             if (Color.GREEN.equals(apple.getColor())) {
                 result.add(apple);
@@ -48,31 +46,46 @@ class Main {
 
         List<Apple> inventory = new ArrayList<>();
         inventory.add(new Apple(Color.RED, 0));
-        inventory.add(new Apple(Color.GREEN, 1));
-        inventory.add(new Apple(Color.RED, 2));
-        inventory.add(new Apple(Color.RED, 3));
-        inventory.add(new Apple(Color.GREEN, 4));
+        inventory.add(new Apple(Color.GREEN, 100));
+        inventory.add(new Apple(Color.RED, 200));
+        inventory.add(new Apple(Color.RED, 300));
+        inventory.add(new Apple(Color.GREEN, 400));
 
-        AppleFormatter fancyFormatter = new AppleFancyFormatter();
+        // testing formatters
         AppleFormatter simpleFormatter = new AppleSimpleFormatter();
+        AppleFormatter fancyFormatter = new AppleFancyFormatter();
 
-        List<Apple> filteredInventory = filterGreenApples(inventory);
-        for (Apple apple : filteredInventory) {
-            System.out.println(apple);
-            System.out.println(fancyFormatter.accept(apple));
+        for (Apple apple : inventory) {
             System.out.println(simpleFormatter.accept(apple));
         }
         System.out.println("---");
 
-        filteredInventory = filterApples(inventory, new AppleGreenColorPredicate());
-        for (Apple apple : filteredInventory) {
-            System.out.println(apple);
+        for (Apple apple : inventory) {
+            System.out.println(fancyFormatter.accept(apple));
         }
         System.out.println("---");
 
+        // filter green apples
+        System.out.println("filter green");
+        List<Apple> filteredInventory = filterGreenApples(inventory);
+        for (Apple apple : filteredInventory) {
+            System.out.println(fancyFormatter.accept(apple));
+        }
+        System.out.println("---");
+
+        // filter green apples with predicate
+        System.out.println("filter green with predicate");
+        filteredInventory = filterApples(inventory, new AppleGreenColorPredicate());
+        for (Apple apple : filteredInventory) {
+            System.out.println(fancyFormatter.accept(apple));
+        }
+        System.out.println("---");
+
+        // filter heavy apples with predicate
+        System.out.println("filter heavy apples");
         filteredInventory = filterApples(inventory, new AppleHeavyWeightPredicate());
         for (Apple apple : filteredInventory) {
-            System.out.println(apple);
+            System.out.println(fancyFormatter.accept(apple));
         }
         System.out.println("---");
     }
