@@ -6,7 +6,8 @@ public class AppleSimpleFormatter implements AppleFormatter {
 
     @Override
     public String accept(Apple a) {
-        return "SimpleFormatter: an apple of " + a.getWeight() + "g";
+        return "SimpleFormatter: an apple of " + a.getWeight() + "g and a color of "
+                + a.getColor().name().toLowerCase();
     }
 
 }

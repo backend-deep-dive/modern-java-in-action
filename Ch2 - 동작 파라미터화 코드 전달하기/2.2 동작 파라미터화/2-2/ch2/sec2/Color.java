@@ -1,6 +1,6 @@
 package ch2.sec2;
 
-enum Color {
+public enum Color {
     RED,
     GREEN
 }
