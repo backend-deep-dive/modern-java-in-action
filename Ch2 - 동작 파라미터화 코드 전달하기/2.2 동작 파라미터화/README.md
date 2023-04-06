@@ -56,3 +56,98 @@ format printer도 매우 비슷한 방식으로 구현할 수 있다. test 대�
 > 주의: 테스트 해보지 않음.
 
 터미널에서 ./run.sh를 실행하면 된다.
+
+### 결과
+
+![](images/20230406151222.png)
+
+## 추가로 생각해볼 점
+
+다음은 위에서 언급된 위키피디아의 strategy pattern 항목 중 자바 예시 코드이다.
+
+``` java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.IntUnaryOperator;
+
+enum BillingStrategy {
+
+    // Normal billing strategy (unchanged price)
+    NORMAL (a -> a),
+    // Strategy for Happy hour (50% discount)
+    HAPPY_HOUR (a -> a/2),
+    ;
+
+    private final IntUnaryOperator strategy;
+
+    BillingStrategy(IntUnaryOperator strategy) {
+        this.strategy = strategy;
+    }
+    
+    // Use a price in cents to avoid floating point round-off error
+    int getActPrice(int rawPrice) {
+        return this.strategy.applyAsInt(rawPrice);
+    }
+
+}
+
+class CustomerBill {
+    private final List<Integer> drinks = new ArrayList<>();
+    private BillingStrategy strategy;
+
+    public CustomerBill(BillingStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void add(int price, int quantity) {
+        this.drinks.add(this.strategy.getActPrice(price*quantity));
+    }
+
+    // Payment of bill
+    public void print() {
+        int sum = this.drinks.stream().mapToInt(v -> v).sum();
+        System.out.println("Total due: " + sum);
+        this.drinks.clear();
+    }
+
+    // Set Strategy
+    public void setStrategy(BillingStrategy strategy) {
+        this.strategy = strategy;
+    }
+}
+
+public class StrategyPattern {
+    public static void main(String[] arguments) {
+        // Prepare strategies
+        BillingStrategy normalStrategy    = BillingStrategy.NORMAL;
+        BillingStrategy happyHourStrategy = BillingStrategy.HAPPY_HOUR;
+
+        CustomerBill firstCustomer = new CustomerBill(normalStrategy);
+
+        // Normal billing
+        firstCustomer.add(100, 1);
+
+        // Start Happy Hour
+        firstCustomer.setStrategy(happyHourStrategy);
+        firstCustomer.add(100, 2);
+
+        // New Customer
+        CustomerBill secondCustomer = new CustomerBill(happyHourStrategy);
+        secondCustomer.add(80, 1);
+        // The Customer pays
+        firstCustomer.print();
+
+        // End Happy Hour
+        secondCustomer.setStrategy(normalStrategy);
+        secondCustomer.add(130, 2);
+        secondCustomer.add(250, 1);
+        secondCustomer.print();
+    }
+}
+```
+
+굉장히 신기한 코드다. 링크에 있는 c#이나 python의 예시 코드는 책과 비슷한 패턴을 보여 친숙한데, 자바 코드는 그렇지 않다.
+
+의도가 명확하지 않지만, 람다를 enum에 저장한 걸로 보아 자바8 이후의 코드로 추정된다.
+
+람다를 따로 변수에 저장하기 번거로운 자바의 특성을 우회하기 위해 IntUnaryOperator에 저장한 다음에 재활용하려고 한 흔적이 돋보인다. 이런 방법도 있구나 싶다. 나중에 만나더라도 당황하지 말자.
