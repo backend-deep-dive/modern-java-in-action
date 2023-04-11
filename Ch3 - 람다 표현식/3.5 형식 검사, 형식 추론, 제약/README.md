@@ -6,7 +6,7 @@
 어떤 콘텍스트(문맥, 예를 들면 람다가 전달될 메서드 파라미터나 람다가 할당되는 변수 등)에서
 기대되는 람다 표현식의 형식을 **대상 형식**이라고 부른다.
 
-```
+```java
 List<Apple> heavierThan150g = 
 filter(inventory, (Apple apple) -> apple.getWeight() > 150);
 ```
@@ -35,7 +35,9 @@ filter(inventory, (Apple apple) -> apple.getWeight() > 150);
 
 ![스크린샷 2023-04-11 오후 6 06 34](https://user-images.githubusercontent.com/96435200/231112686-36da7757-ad7e-4423-855e-0645bf5582e6.png)
 
+``` java
 	1. 람다가 사용된 컨텍스트는 무엇인가? 우선 filter의 정의를 확인하자.
+	
 	 public <T> List<T> filter(List<T> list, Predicate<T> p) { -- filter 메서드
 		List<T> results = new ArrayList<>();
 		for(T t: list) {
@@ -57,6 +59,8 @@ filter(inventory, (Apple apple) -> apple.getWeight() > 150);
 	4. Apple을 인수로 받아 boolean을 반환하는 test 메서드다!
 	5. 함수 디스크립터는 Apple -> boolean이므로 람다의 시그니처와 일치한다!
 		람다도 Apple을 인수로 받아 boolean을 반환하므로 코드 형식 검사가 성공적으로 완료된다.
+		
+```
 
 ![스크린샷 2023-04-11 오후 6 20 18](https://user-images.githubusercontent.com/96435200/231119284-7da6ac2e-bd62-4da0-9e97-69cb669d98e8.png)
 
@@ -71,6 +75,7 @@ filter(inventory, (Apple apple) -> apple.getWeight() > 150);
 
 예를 들어 이전에 살펴본 Callable과 PrivilegedAction 인터페이스는 인수를 받지 않고 제네릭 형식 T를 반환하는 함수를 정의한다.
 
+```java
 	Callable<Integer> c = () -> 42;
 	PrivilegedAction<Integer> p = () -> 42;
 
@@ -114,6 +119,8 @@ filter(inventory, (Apple apple) -> apple.getWeight() > 150);
 			void accept(T t); -- Consumer의 콘텍스트는 return으로 void를 기대하지만 boolean을 반환
 											-- 유효한 코드
 	}
+	
+```
   
   <img width="350" alt="스크린샷 2023-04-11 오후 7 57 54" src="https://user-images.githubusercontent.com/96435200/231140469-1f376ffa-776d-40e0-b599-cbe7ed1d6605.png">
   결과 : bool = true;
@@ -124,7 +131,7 @@ filter(inventory, (Apple apple) -> apple.getWeight() > 150);
   
   ## 퀴즈 3-4 형식 검사 문제. 다음 코드를 컴파일할 수 없는 이유는?
   
-  ```
+```java
 Object o = () -> {System.out.println("Tricky example");}
 
 지금 람다 표현식의 콘텍스트는 Object 이다.
