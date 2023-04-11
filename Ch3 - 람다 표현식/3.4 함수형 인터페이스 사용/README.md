@@ -92,5 +92,4 @@ evenNumbers.test(1000) // 참 (박싱 없음)
 
 Predicate<Integer> oddNumbers = (Integer i) -> i % 2 != 0;
 oddNumbers.test(1000); // 거짓 (박싱)
-
 ```
