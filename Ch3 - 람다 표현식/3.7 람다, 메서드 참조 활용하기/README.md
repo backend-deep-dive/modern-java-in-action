@@ -84,3 +84,4 @@ inventory.sort(comparing(Apple::getWeight));
 
 단지 코드만 짧아진 것이 아니라 코드의 의미도 명확해졌다.
 즉, 코드 자체로 'Apple을 weight별로 비교해서 inventory를 sort하라'는 의미를 전달할 수 있다.
+
