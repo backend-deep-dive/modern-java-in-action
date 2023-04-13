@@ -250,7 +250,7 @@ Predicate<String> startsWithNumber = this::startsWithNumber
 
 <br>
 
-- **case 4** : 인수가 3개 이상인 생성자 참조는?
+- **case 4** : 인수가 3개 이상인 생성자 참조는?<br>
   현재 이런 시그니처를 갖는 함수형 인터페이스는 제공되지 않음 -> 직접 다음과 같은 함수형 인터페이스를 만들어야 한다.
 	```java
 	public interface TriFunction<T, U, V, R> {
