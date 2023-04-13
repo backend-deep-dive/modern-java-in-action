@@ -2,84 +2,77 @@
 
 **메서드 참조**
 
-<br>
-
-### 메서드 참조란?
-
 - Java 8의 새로운 기능
 - 특정 메서드만을 호출하는 람다 표현식의 축약형
 - 기존의 메서드 정의를 재활용해서 람다처럼 전달할 수 있다.
-
 - 때로는 람다 표현식보다 더 가독성이 좋으며 자연스러울 수 있다.
 	- 람다 표현식
-		```java
-		inventory.sort((Apple a1, Apple a2) ->
-						a1,getWeight().compareTo(a2.getWeight()));
-		```
+	```java
+	inventory.sort((Apple a1, Apple a2) ->
+					a1,getWeight().compareTo(a2.getWeight()));
+	```
 	
 	- 메서드 참조 적용 후
-		```java
-		inventory.sort(comparing(Apple::getWeight));
-		```
+	```java
+	inventory.sort(comparing(Apple::getWeight));
+	```
 
-> 📌 **언제 유용한가?** <br>
-> - 람다가 "이 메서드를 직접 호출해!"라고 명령할 경우 → 메서드명을 직접 참조하는 것이 편리함 <br>
-> - 이 때 명시적으로 메서드명을 참조할 수 있음 → **가독성 향상!**
 
-<br>
+#### 언제 활용하는가?
+- 람다가 "이 메서드를 직접 호출해!"라고 명령할 경우 → 메서드명을 직접 참조하는 것이 편리함
+  - 이 때 명시적으로 메서드명을 참조할 수 있음 → **가독성 향상!**
 
-### 활용 방법
+
+#### 활용 방법
 **구분자 `::` 붙이기** (괄호 필요 X)
-- `Apple::getWeight` : Apple 클래스에 정의된 `getWeight`의 메서드 참조<br>
-   (= 람다표현식 `(Apple a) -> a.getWeight()`)
+- `Apple::getWeight` : Apple 클래스에 정의된 `getWeight`의 메서드 참조
+  -  = 람다표현식 `(Apple a) -> a.getWeight()`
 
-<br>
-
-### 예제
+#### 예제
 - 예시 1
 	- 람다 표현식
-		```java
-		() -> Thread.currentThread().dumpStack()
-		```
+	```java
+	() -> Thread.currentThread().dumpStack()
+	```
 	
 	- 메서드 참조 적용 후
-		```java
-		Thread.currentThread()::dumpStack
-		```
+	```java
+	Thread.currentThread()::dumpStack
+	```
 
 - 예시 2
 	- 람다 표현식
-		```java
-		(str, i) -> str.substring(i)
-		```
+	```java
+	(str, i) -> str.substring(i)
+	```
 	
 	- 메서드 참조 적용 후
-		```java
-		String::substring
-		```
+	```java
+	String::substring
+	```
 
 - 예시 3
 	- 람다 표현식
-		```java
-		(String s) -> System.out.printIn(s) (String s) System.out::printin
-		-> this.isValidName(s)
-		```
+	```java
+	(String s) -> System.out.printIn(s) (String s) System.out::printin
+	-> this.isValidName(s)
+	```
 	
 	- 메서드 참조 적용 후
-		```java
-		System.out::printin
-		this::isValidName
-		```
+	```java
+	System.out::printin
+	this::isValidName
+	```
 
-> 💡 **참고**<br>
-> 즉, 메서드 참조는<br>
-> - 새로운 기능 X<br>
-> - 하나의 메서드를 참조하는 람다를 더 편리하게 표현할 수 있는 문법!<br>
+> 💡 **참고**
+> 즉, 메서드 참조는
+> - 새로운 기능 X
+> - 하나의 메서드를 참조하는 람다를 더 편리하게 표현할 수 있는 문법!
 > - 같은 기능을 더 간결하게 구현할 수 있다!
 
 <br>
 
-## 메서드 참조 방법
+## 메서드 참조를 만드는 방법
 
 1. **정적 메서드 참조**
     - `Integer::parseInt`
@@ -89,19 +82,22 @@
     - 메서드 참조를 이용해서 람다 표현식의 파라미터로 전달할 때 사용
 
 3. **기존 객체의 인스턴스 메서드 참조**
-    -  현존하는 외부 객체의 메서드를 호출할 때 사용
-	    - 예시 : `expensiveTransaction::getValue`처럼 쓸 수 있음<br>
-       (단, Transaction 객체를 할당받은 expensiveTransaction 지역변수가 있고, <br>
+    - `expensiveTransaction::getValue` 
+       (Transaction 객체를 할당받은 expensiveTransaction 지역변수가 있고, 
         Transaction 객체에는 getValue 메서드가 있음)
+    -  현존하는 외부 객체의 메서드를 호출할 때 사용
     - 비공개 헬퍼 메서드를 정의한 상황에서 유용하게 활용 가능
-		```java
-		private boolean isValidName(String string) {
-		   return Character.isUpperCase(string.charAt(0));}
-		```
+   ```java
+   private boolean isValidName(String string) {
+	   return Character.isUpperCase(string.charAt(0));}
+   ```
+       
+	```java
+	filter(words, this::isValidName)
+	```
 
-		```java
-		filter(words, this::isValidName)
-		```
+
+
 <br>
 
 >💡 **알고 가기**
