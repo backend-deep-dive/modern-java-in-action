@@ -72,6 +72,29 @@
 
 <br>
 
+## 람다 표현식 -> 메서드 참조
+
+### 대표 예제
+
+> **배경 지식**
+> - `List`의 `sort` 메서드 : 인수로 Comparator을 기대한다.
+> - `Comparator` : `(T, T) -> int`라는 함수 디스크립터를 갖는다.
+> - `String` 클래스 : `compareToIgnoreCase`라는 메서드를 갖는다.
+
+**람다 표현식**
+```java
+List<String> str = Arrays.asList("a","b","A","B");
+str.sort((s1, s2) -> s1.compareToIgnoreCase(s2));
+```
+
+**메서드 참조로 변경**
+```java
+List<String> str = Arrays.asList("a","b","A","B");
+str.sort(String::compareToIgnoreCase)；
+```
+
+<br>
+
 ## 메서드 참조를 만드는 방법
 
 1. **정적 메서드 참조**
@@ -107,29 +130,6 @@
 
 <br>
 
-## 람다 표현식 -> 메서드 참조
-
-### 대표 예제
-
-> **배경 지식**
-> - `List`의 `sort` 메서드 : 인수로 Comparator을 기대한다.
-> - `Comparator` : `(T, T) -> int`라는 함수 디스크립터를 갖는다.
-> - `String` 클래스 : `compareToIgnoreCase`라는 메서드를 갖는다.
-
-**람다 표현식**
-```java
-List<String> str = Arrays.asList("a","b","A","B");
-str.sort((s1, s2) -> s1.compareToIgnoreCase(s2));
-```
-
-**메서드 참조로 변경**
-```java
-List<String> str = Arrays.asList("a","b","A","B");
-str.sort(String::compareToIgnoreCase)；
-```
-
-<br>
-
 ## 람다 표현식 -> 메서드 참조 - 단축 규칙
 
 ![image](https://user-images.githubusercontent.com/100582309/231714945-614e8c1b-093f-4889-95a1-7a9e722d85c5.png)
@@ -137,6 +137,7 @@ str.sort(String::compareToIgnoreCase)；
 <br>
 
 ### 예제 1 - ①번 방법
+: 정적 메서드 참조
 
 **람다 표현식**
 ```java
@@ -151,6 +152,8 @@ Function<String, Integer> stringToInteger = Integer::parselnt;
 <br>
 
 ### 예제 2 - ②번 방법
+: 다양한 형식의 인스턴스 메서드 참조
+
 **람다 표현식**
 ```java
 BiPredicate<List<String>, String> contains = (list, element) -> list.contains(element);
@@ -164,6 +167,7 @@ BiPredicate<List<String>, String> contains = List::contains;
 <br>
 
 ### 예제 3 - ③번 방법
+: 기존 객체의 인스턴스 메서드 참조 (비공개 헬퍼 메서드에 )
 
 **람다 표현식**
 ```java
