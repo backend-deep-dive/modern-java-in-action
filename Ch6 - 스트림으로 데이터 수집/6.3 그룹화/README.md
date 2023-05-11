@@ -3,7 +3,7 @@
 
 : 데이터 집합을 하나 이상의 특성으로 분류해서 그룹화하는 연산
 
-- **~ Java 7** : 명령형 프로그래밍 - 그룹화를 구현하려면, 까다롭고, 할 일이 많으며, 에러도 많이 발생함
+- **~Java 7** : 명령형 프로그래밍 - 그룹화를 구현하려면, 까다롭고, 할 일이 많으며, 에러도 많이 발생함
 - **Java 8** ~ : 함수형 프로그래밍 - 가독성 있는 한 줄의 코드로 그룹화 구현 가능
 
 <br>
@@ -94,7 +94,7 @@ Map<Dish.Type, Map<CaloricLevel, List<Dish>> dishesByTypeCaloricLevel = menu.str
 - 다수준 그룹화 연산은 다양한 수준으로 확장할 수 있음
 <br>⇒ 즉, n수준 그룹화의 결과는 n수준 트리 구조로 표현되는 n수준 맵이 된다.
 
-![[Pasted image 20230511172003.png]]
+![image](https://github.com/deingvelop/modern-java-in-action/assets/100582309/dc31f721-436e-4849-a6cd-2424fe10442c)
 
 > - `groupingBy`의 연산을 **버킷(bucket, 물건을 담을 수 있는 양동이)** 개념으로 생각하면 쉽다. 
 >   - 첫 번째 `groupingBy` : 각 키의 버킷을 만든다.
@@ -176,7 +176,8 @@ Map<Dish.Type, Dish> mostCaloricByType =
 
 #### 참고 - 중첩 컬렉터의 작동 원리
 
-![[Pasted image 20230511174441.png]]
+![image](https://github.com/deingvelop/modern-java-in-action/assets/100582309/7ef125f3-0949-4a69-8092-a60b73d4f948)
+
 
 - 컬렉터는 점선으로 표시되어 있음
 1. `groupingBy` - 가장 바깥쪽에 위치하면서 요리의 종류에 따라 메뉴 스트림을 세 개의 서브스트림으로 그룹화함
