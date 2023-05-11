@@ -105,7 +105,7 @@ Map<Dish.Type, Map<CaloricLevel, List<Dish>> dishesByTypeCaloricLevel = menu.str
 예시 1) groupingBy 컬렉터에 두 번째 인수로 counting 컬렉터를 전달해서 메뉴에서 요리의 수를 종류별로 계산하기
 ```java
 Map<Dish.Type, Long> typesCount = menu.stream().collect(
-	groupingBy(Dish::getType, counting()));
+							groupingBy(Dish::getType, counting()));
 ```
 
 ```java
@@ -121,8 +121,8 @@ Map<Dish.Type, Long> typesCount = menu.stream().collect(
 ```java
 Map<Dish.Type, Optional<Dish>> mostCaloricByType =
 	menu.stream()
-		.collect(groupingBy(Dish::getType,
-							maxBy(comparingInt(Dish::getCalories))));
+	     .collect(groupingBy(Dish::getType,
+	     .maxBy(comparingInt(Dish::getCalories))));
 ```
 
 ```java
@@ -158,9 +158,9 @@ Map<Dish.Type, Optional<Dish>> mostCaloricByType =
 Map<Dish.Type, Dish> mostCaloricByType = 
 	menu.stream()
 		.collect(groupingBy(Dish::getType,     // 분류함수
-				 collectingAndThen(
+				    collectingAndThen(
 					 maxBy(comparinglnt(Dish::getCalories)),    // 감싸인 컬렉터 
-				 Optional::get)));     // 변환함수
+			 Optional::get)));     // 변환함수
 ```
 
 - 반환되는 컬렉터 : 기존 컬렉터의 래퍼 역할을 함
@@ -200,7 +200,9 @@ Map<Dish.Type, Dish> mostCaloricByType =
 
 예시) 500 칼로리가 넘는 요리만 필터링하여 그룹화하기
 ```java
-Map<Dish.Type, List<Dish>> caloricDishesByType = menu.stream().filter(dish -> dish.getCalories() > 500).collect(groupingBy(Dish::getType));
+Map<Dish.Type, List<Dish>> caloricDishesByType = menu.stream()
+						     .filter(dish -> dish.getCalories() > 500)
+						     .collect(groupingBy(Dish::getType));
 ```
 
 ```java
@@ -216,7 +218,9 @@ Map<Dish.Type, List<Dish>> caloricDishesByType = menu.stream().filter(dish -> di
 > 두 번째 Collector 안으로 filter를 이동시킴
 
 ```java
-Map<Dish.Type, List<Dish>> caloricDishesByType = menu.stream().collect(groupingBy(Dish::getType, filtering(dish -> dish.getCalories() > 500, toList())));
+Map<Dish.Type, List<Dish>> caloricDishesByType = menu.stream()
+						     .collect(groupingBy(Dish::getType, 
+						     	      		 filtering(dish -> dish.getCalories() > 500, toList())));
 ```
 
 - `filtering`
@@ -239,7 +243,9 @@ Map<Dish.Type, List<Dish>> caloricDishesByType = menu.stream().collect(groupingB
 
 예시) 그룹의 각 요리를 관련 이름 목록으로 변환하기
 ```java
-Map<Dish.Type, List<String>> dishNamesByType = menu.stream().collect(groupingBy(Dish::getType, mapping(Dish::getName, toList())));
+Map<Dish.Type, List<String>> dishNamesByType = menu.stream()
+						   .collect(groupingBy(Dish::getType, 
+						   		       mapping(Dish::getName, toList())));
 ```
 
 - groupingBy와 연계해 세 번째 컬렉터를 사용해서 일반 맵이 아닌 flatMap 변환을 수행할 수 있음
@@ -261,8 +267,7 @@ dishTags.put("salmon", asList("delicious"z "fresh"));
 ```java
 Map<Dish.Type, Set<String>> dishNamesByType =
 menu.stream().collect(groupingBy(Dish::getType, 
-								 flatMapping(dish -> dishTags.get( dish.getName()).stream(), toSet())));
-
+			 	 flatMapping(dish -> dishTags.get(dish.getName()).stream(), toSet())));
 ```
 
 - `flatMapping` : 두 수준의 리스트를 한 수준으로 평면화하기
@@ -290,8 +295,8 @@ menu.stream().collect(groupingBy(Dish::getType,
 ```java
 Map<Dish.Type, Integer> totalCaloriesByType =
 	menu.stream()
-		.collect(groupingBy(Dish::getType,
-				 summingInt(Dish::getCalories)));
+	    .collect(groupingBy(Dish::getType,
+				summingInt(Dish::getCalories)));
 ```
 
 #### groupingBy + mapping
