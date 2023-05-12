@@ -20,16 +20,15 @@ List<Dish> vegetarianDishes = menu.stream().filter(Dish::isVegetarian).collect(t
 
 또한 컬렉터를 두 번째 인수로 전달할 수 있는 오버로드된 버전의 `partitioningBy` 메서드도 있다.
 ```java
-Map<Boolean, List<Dish>> partitionedMenu = menu.stream().collect(partitioningBy(
+Map<Boolean, Map<Dish.Type, List<Dish>>> partitionedMenu = menu.stream().collect(partitioningBy(
         Dish::isVegetarian, groupingBy(Dish::getType));
-// {false=FISH=[prawns, salmon], MEAT=[pork, beef, chicken],
-// true=OTHER=[french fires, rice, season fruit, pizza]}
+// {false = {FISH=[prawns, salmon], MEAT=[pork, beef, chicken]}, true = {OTHER=[french fires, rice, season fruit, pizza]}}
 ```
 이전 코드를 활용하면 채식 요리와 채식이 아닌 요리의 각각의 그룹에서 가장 칼로리가 높은 요리도 찾을 수 있다.
 ```java
-Map<Boolean, List<Dish>> partitionedMenu = menu.stream().collect(partitioningBy(
+Map<Boolean, Dish>> partitionedMenu = menu.stream().collect(partitioningBy(
   Dish::isVegetarian, collectingAndThen(maxBy(comparingInt(Dish::getCalories)), Optional::get));
-// {false=pork, true=pizza}
+// {false = pork, true = pizza}
 ```
 ## 6.4.2 숫자를 소수와 비소수로 분할하기
 정수 n을 인수로 받아서 2에서 n까지의 자연수를 소수와 비소수로 나누는 프로그램을 구현해보자.
