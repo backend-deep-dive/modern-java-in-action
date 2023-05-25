@@ -3,10 +3,11 @@
 
 ### 지난 장 요약
 - stream 인터페이스를 통해 데이터 collection을 선언형으로 제어하는 방법들
-- 또, 외부 반복을 내부 반복으로 바꾸면 Native Java Library가 stream 요소의 처리를 제어할 수 있음
+- 또, 외부 반복을 내부 반복으로 바꾸면 Native Java Library가 stream 요소의 처리를 제어할 수 있음<br>
   > 👉🏻 Java 개발자는 collection 데이터 처리 속도를 높이려고 따로 고민할 필요가 없음!
 - 컴퓨터의 멀티코어를 활용해서 파이프라인 연산을 실행할 수 있음⭐⭐ (가장 중요!)
 
+<br>
 
 ### Java 7 이전
 : 데이터 컬렉션을 병렬로 처리하기 어려웠음
@@ -15,11 +16,13 @@
   - step 3. 의도치 않은 race condition이 발생하지 않도록 적절한 동기화를 추가함
   - step 4. 부분 결과를 합침
 
+<br>
 
 ### Java 7 이후
 - fork/join framework 제공
   - 더 쉽게 병렬화를 수행하면서 에러를 최소화할 수 있는 기능
 
+<br>
 
 ### Stream을 쓰면 얼마나 병렬 실행을 쉽게 할 수 있는지?
 - stream → 순차 스트림을 병렬 스트림으로 자연스럽게 바꿀 수 있음!
@@ -27,7 +30,7 @@
   - 내부적 원리 : 병렬 스트림이 요소를 여러 청크로 분할하는 것부터 시작
   - Custom Spliterator를 직접 구현 → 분할 과정을 직접 제어 가능
 
-<br>
+<br><br>
 
 # 7.1 병렬 스트림
 - Stream 인터페이스 : 간단히 요소를 병렬로 처리할 수 있음
@@ -48,8 +51,8 @@
   ```java
   public long sequentialSum(long n) { 
 	  return Stream.iterate(1L, i -> i + 1)
-	  			 .limit(n) 
-	  			 .reduce(0Lz Long::sum);
+	  	       .limit(n) 
+	  	       .reduce(0Lz Long::sum);
   ```
 
 2. 전통적인 자바에서 반복문으로 구현하는 방법
@@ -71,7 +74,7 @@ public long iterativeSum(long n) {
 
 >👉🏻 **병렬 스트림을 사용하면 위의 문제를 모두 쉽게 해결할 수 있다.**
 
-<br>
+<br><br>
 
 ## 7.1.1 순차 스트림 → 병렬 스트림
 
@@ -81,9 +84,9 @@ public long iterativeSum(long n) {
 ```java
 public long parallelSum(long n) {
 	return Stream.iterate(1L, i -> i + 1)
-				 .limit(n)
-				 .parallel()   // 스트림을 병렬 스트림으로 변환
-				 .reduce(0L, Long::sum); 
+		     .limit(n)
+		     .parallel()   // 스트림을 병렬 스트림으로 변환
+		     .reduce(0L, Long::sum); 
 }
 ```
 
@@ -92,22 +95,26 @@ public long parallelSum(long n) {
     → 리듀싱 연산으로 생성된 부분 결과를 다시 리듀싱 연산으로 합침
     → 전체 스트림의 리듀싱 결과를 도출
     
-  ![[Pasted image 20230524201915.png]]
+    ![Pasted image 20230524201915](https://github.com/deingvelop/modern-java-in-action/assets/100582309/29144206-7bb6-4114-ba73-a335f69f4906)
+
 - parallel을 호출해도 스트림 자체에는 아무런 변화도 일어나지 않음
 - 원리
   - 내부적으로, 이후 연산이 병렬로 수행해야 함을 의미하는 boolean 플래그가 설정됨
 
-> 💡 **병렬 스트림에서 사용하는 스레드 풀 설정**
-> **Q.** 스트림의 parallel 메서드로 병렬 작업 수행하는 스레드는 어디서, 어떻게, 몇 개나 생성되는가?
-> 
-> **A.** 
-> - 병렬 스트림은 내부적으로 `ForkJoinPool`을 사용한다(포크/조인 프레임워크는 7.2절에서 자세히 설명한다). 
+<br>
+
+> 💡 **병렬 스트림에서 사용하는 스레드 풀 설정**<br>
+> **Q.** 스트림의 parallel 메서드로 병렬 작업 수행하는 스레드는 어디서, 어떻게, 몇 개나 생성되는가?<br>
+> **A.** <br>
+> - 병렬 스트림은 내부적으로 `ForkJoinPool<br>`을 사용한다(포크/조인 프레임워크는 7.2절에서 자세히 설명한다). 
 > - 기본적으로 `ForkJoinPool`은 프로세서 수, 즉 `Runtime.getRuntime().availableProcessors()`가 반환하는 값에 상응하는 스레드를 가진다.
 > - 만약 `ForkJoinPool`의 `property`값을 바꿔 설정하고 싶다면?
 >   ```java
 >   System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "12");
 >   ```
 >   - 위의 예시는 전역 설정 코드이므로 이후의 모든 병렬 스트림 연산에 영향을 준다. 즉, 현재는 하나의 병렬 스트림에 사용할 수 있는 특정한 값을 지정할 수 없다. 일반적으로 기기의 프로세서 수와 같으므로 특별한 이유가 없다면 `ForkJoinPool`의 기본값을 그대로 사용할 것을 권장한다.
+
+<br>
 
 ### `sequential`
 - sequential을 사용하면 병렬스트림 → 순차스트림으로 전환 가능
@@ -119,11 +126,11 @@ public long parallelSum(long n) {
   - 두 메서드 중 최종적으로 호출된 메서드가 전체 파이프라인에 영향을 미친다.
     ```java
 	stream.para1lel()
-		  .filter(...)
-		  .sequential()
-		  .map()
-		  .parallel()
-		  .reduce();
+	      .filter(...)
+	      .sequential()
+	      .map()
+	      .parallel()
+	      .reduce();
 	```
   - 이 예제에서 파이프라인의 마지막 호출은 parallel이므로 파이프라인은 전체적으로 병렬로 실행된다.
 
@@ -145,8 +152,6 @@ public long parallelSum(long n) {
 > **HotSpot**
 > - 데스크톱과 서버 컴퓨터를 위한 JVM
 > - 
-
-> ****
 
 ### JMH 활용하기
 
@@ -228,7 +233,8 @@ public class ParallelStreamBenchmark {
   - JMH 명령이 계산하는 과정
     - 핫스팟이 코드를 최적화 할 수 있도록 20 번을 실행 → 벤치 마크를 준비한 → 20번을 더 실행 → 최종 결과를 계산
 - 실행 결과
-  ![[Pasted image 20230525135036.png]]
+  ![Pasted image 20230525135036](https://github.com/deingvelop/modern-java-in-action/assets/100582309/4efa9c9f-da51-48b2-a5dc-4055b9a55d15)
+
 <br>
 
 ### for 루프 vs stream 병렬 처리
@@ -244,10 +250,14 @@ public class ParallelStreamBenchmark {
 	}
 	```
   - 결과
-  ![[Pasted image 20230525135445.png]]
+  ![Pasted image 20230525135445](https://github.com/deingvelop/modern-java-in-action/assets/100582309/fc4a808a-ec6a-45b6-a337-3b1465564c9b)
+
+
    
 - 병렬 stream
-  ![[Pasted image 20230525135612.png]]
+  ![Pasted image 20230525135612](https://github.com/deingvelop/modern-java-in-action/assets/100582309/7cbdaae4-acb5-49f7-bf0e-4591cc4b7c93)
+
+
 
 > 💡 **병렬 처리가 무조건 빠르진 않다!**
 > - 병렬 버전이 쿼드 코어 CPU를 활용하지 못하고 순차 버전에 비해 다섯 배나 느린 실망스러운 결과가 나왔다. 두 가지 문제를 발견할 수 있다.
@@ -258,7 +268,8 @@ public class ParallelStreamBenchmark {
 
 ###  반복 작업을 병렬 수행 단위로 나누기
 - 이전 연산의 결과에 따라 다음 함수의 입력이 달라지기 때문에, 청크로 분할하기 어렵기 때문!
-  ![[Pasted image 20230525140025.png]]
+  ![Pasted image 20230525140025](https://github.com/deingvelop/modern-java-in-action/assets/100582309/30f6108f-fbdb-4709-b3f8-d7a2bf09e78c)
+
 - 리듀싱 연산이 수행되지 않음 - 리듀싱 과정을 시작하는 시점에 전체 숫자 리스트가 준비되지 않았기 때문에 → 청크로 분할할 수 없음
 - 오히려 순차처리 방식과 크게 다른 점이 없는데 **스레드를 할당하는 오버헤드만 증가하게 됨**
 
@@ -271,7 +282,7 @@ public class ParallelStreamBenchmark {
 
 #### `LongStream.rangeClosed`
 - 기본형 long을 직접 사용 → 박싱과 언박싱 오버헤드가 사라짐
-- 쉽게 청크로 분할할 수 있는 숫자 범위를 생산 (ex: 1~20을 각각 1~5, 6~10,11~15,16~20 범위의 숫자로 분할)
+- 쉽게 청크로 분할할 수 있는 숫자 범위를 생산 (ex: 1-20을 각각 1-5, 6-10,11-15,16-20 범위의 숫자로 분할)
 
 - 순차 스트림 측정
   ```java
@@ -282,7 +293,8 @@ public class ParallelStreamBenchmark {
   ```
 
 - 출력 결과
-  ![[Pasted image 20230525140813.png]]
+  ![Pasted image 20230525140813](https://github.com/deingvelop/modern-java-in-action/assets/100582309/68cd3190-ab6f-4d90-8b64-6c43a87338be)
+
 
 - 이렇게 특화된 메서드를 활용한 처리 속도가 더 빠름!
   - 특화되지 않은 스트림 : 오토박싱, 언박싱 등의 오버헤드를 수반하기 때문
@@ -299,7 +311,8 @@ public long parallelRangedSum() {
 }
 ```
   - 결과
-  ![[Pasted image 20230525141112.png]]
+  ![Pasted image 20230525141112](https://github.com/deingvelop/modern-java-in-action/assets/100582309/783100f7-4bdc-4f51-8921-bd349797d36e)
+
 
   > 올바른 자료구조를 선택해야 병렬 실행도 최적의 성능을 발휘할 수 있다 는 사실!
 
@@ -356,7 +369,8 @@ public long parallelRangedSum() {
   System.out.println("SideEffeet parallel sum done in: " + measurePerf(Parallelstreams::sideEffectParallelSum, 10_000_000L) + " msecs" );
   ```
   - 결과
-    ![[Pasted image 20230525182825.png]]
+    ![Pasted image 20230525182825](https://github.com/deingvelop/modern-java-in-action/assets/100582309/3b9c2c17-e497-46fd-8efa-bb70ba50c9a4)
+
   - 일단, 성능보다도 올바른 결과값이 나오지 않음
     - 여러 스레드에서 동시에 누적자, 즉 `total += value`를 실행하면서 이런 문제가 발생!
     - `total += value`는 아토믹 연산이 아님!
@@ -402,7 +416,8 @@ public long parallelRangedSum() {
     - **최종 연산의 병합 과정 비용**을 살펴보라. 
       - ex) `Collector`의 `combiner` 메서드
       - 병합 과정의 비용이 비싸다면 병렬 스트림으로 얻은 성능의 이익이 서브스트림의 부분 결과를 합치는 과정에서 상쇄될 수 있다
-      - ![[Pasted image 20230525185610.png]]<br><br>
+      - ![Pasted image 20230525185610](https://github.com/deingvelop/modern-java-in-action/assets/100582309/dd3d2eec-e8ec-4186-895e-ea574cd9e9bf)
+<br><br>
     - 병렬 스트림이 수행되는 **내부 인프라구조**도 살펴봐야 한다. 
       - Java 7에서 추가된 fork/join Framework로 병렬 스트림이 처리된다. 
       - 병렬 스트림을 제대로 사용하려면 병렬 스트림의 내부 구조를 잘 알아야 한다.
