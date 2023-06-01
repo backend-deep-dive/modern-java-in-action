@@ -28,7 +28,7 @@ forEach 루프는 Iterator 객체를 사용하므로 위 코드는 다음과 같
 ```java
 for(Iterator<Transaction> iterator = transactions.iterator(); iterator.hasNext(); ) {
   Transaction transaction = iterator.next();
-  if(Character.isDigit(transaction.getReferanceCode().charAt(0))) {
+  if(Character.isDigit(transaction.getReferenceCode().charAt(0))) {
     transactions.remove(transaction);
     // 반복자를 사용해 리스트를 순회하면서, 리스트를 직접 수정하고 있음 -> 문제 발생
   }
@@ -44,7 +44,7 @@ Iterator 객체를 명시적으로 사용하고 그 객체의 remove() 메서드
 ```java
 for(Iterator<Transaction> iterator = transactions.iterator(); iterator.hasNext(); ) {
   Transaction transaction = iterator.next();
-  if(Character.isDigit(transaction.getReferanceCode().charAt(0))) {
+  if(Character.isDigit(transaction.getReferenceCode().charAt(0))) {
     iterator.remove();
   }
 }
@@ -87,6 +87,7 @@ B13
 for(ListIterator<String> iterator = referenceCodes.listIterator(); iterator.hasNext(); ) {
   String code = iterator.next();
   iterator.set(Character.toUpperCase(code.charAt(0)) + code.substring(1));
+  // 변경된 값을 iterator.set() 메서드를 사용하여 현재 요소에 대입하여 수정
 }
 ```
 
