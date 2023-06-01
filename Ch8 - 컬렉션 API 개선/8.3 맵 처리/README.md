@@ -8,7 +8,7 @@
 
 ```java
 // forEach 메소드 미사용
-for(Map.Entry<String, Integer> entry : ageOfFriends.entrySet()) {
+for (Map.Entry<String, Integer> entry : ageOfFriends.entrySet()) {
     String friend = entry.getKey();
     Integer age = entry.getValue();
     System.out.println(friend + " is " + age + " years old");
@@ -20,7 +20,7 @@ ageOfFriends.forEach((friend, age) -> System.out.println(friend + " is " + age +
 
 ### 8.3.2 정렬 메소드
 
-`Entry.comparingByValue`, `Entry.comparingByKey`를 이용하면 맵의 항목을 값 또는 키를 기준으로 정려할 수 있다.
+`Entry.comparingByValue`, `Entry.comparingByKey`를 이용하면 맵의 항목을 값 또는 키를 기준으로 정렬할 수 있다.
 
 ```java
 Map<String, String> favouriteMovies = Map.ofEntries(entry("Raphael", "Star Wars"),
@@ -154,7 +154,7 @@ everyone.putAll(friends);
 
 ```java
 Map<String, String> everyone = new HashMap<>(family);
-friends.forEach((key, value) ->  everyone.merge(key, value, (movie1, movie2) -> movie1 + " & " + movie2));
+friends.forEach((key, value) -> everyone.merge(key, value, (movie1, movie2) -> movie1 + " & " + movie2));
 System.out.println(everyone);
 ```
 
