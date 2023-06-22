@@ -131,7 +131,7 @@ Order order = forCustomer("BigBank")
 
 이러한 코드를 만들기 위해서 아래와 같이 DSL을 구현해야 한다.
 
-- 플루언트 API로 도메인 객체를 만드는 필더 구현
+- 플루언트 API로 도메인 객체를 만드는 빌더 구현
 - 최상위 수준 빌더를 만들고 주문을 감싸서 거래를 추가할 수 있도록 구현
 
 >  Fluent API란? (fluent interface)
@@ -233,8 +233,6 @@ public class MethodChainingOrderBuilder {
 
 
 이렇게 메서드 체인 DSL을 이용하면 이처럼 MethodChainingOrderBuilder가 끝날 때까지 다른 거래를 플루언트 방식으로 추가할 수 있다.
-
-여러 빌드 클래스, 특히 두 개의 거래 빌더를 따로 만듦으로써 사용자가 미리 지정된 절차에 따라 플루언트 API의 메서드를 호출하도록 강제한다. 이 덕분에 사용자가 다음 거래를 설정하기 전에 기존 거래를 올바로 설정하게 된다.
 
 - 메서드 체인 DSL의 장점
     - 사용자가 지정된 절차에 따라 플루언트 API의 메서드를 호출하도록 강제
