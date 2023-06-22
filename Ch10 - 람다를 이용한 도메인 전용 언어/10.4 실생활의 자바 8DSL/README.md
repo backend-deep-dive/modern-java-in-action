@@ -2,7 +2,7 @@
 
 ### DSL 패턴의 장점과 단점
 
-![[Pasted image 20230622180516.png]]
+![image](https://github.com/deingvelop/modern-java-in-action/assets/100582309/e0708dd4-e354-4fd2-95ec-685e936e492d)
 
 
 <br><br>
